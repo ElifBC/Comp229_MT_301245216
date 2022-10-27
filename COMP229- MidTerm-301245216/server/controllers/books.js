@@ -16,7 +16,7 @@ export function displayBookList(req, res, next) {
 //  GET the Book Details page in order to add a new Book
 export function displayAddPage(req, res, next) {
 
-    res.render('index', { title: 'Add Book', page: 'books/add', bcontact: {} });  //code added-Elif
+    res.render('index', { title: 'Add Book', page: 'books/add', books: {} });  //code added-Elif
   
 }
 
@@ -37,7 +37,7 @@ export function processAddPage(req, res, next) {
             res.end(err);
         };
 
-        res.redirect('/books')
+        res.redirect('/books/list')
     })
 }
 
@@ -46,13 +46,13 @@ export function displayEditPage(req, res, next) {
 
     let id = req.params.id;
 
-    booksModel.findById(id, (err, book) => {                    //code added-Elif
+    booksModel.findById(id, (err, books) => {                    //code added-Elif
         if(err){
             console.error(err);
             res.ens(err);
         }
 
-        res.render('index', { title: 'Update Books', page: 'books/edit', book: book });
+        res.render('index', { title: 'Edit Book', page: 'books/edit', books: books });
     })
 
 
@@ -71,13 +71,13 @@ export function processEditPage(req, res, next) {
         
     });
 
-    booksModel.updateOne( {_id: id}, newBook, (err, book) => {
+    booksModel.updateOne( {_id: id}, newBook, (err, books) => {
         if(err){
             console.error(err);
             res.end(err);                               //code added -Elif
         };
 
-        res.redirect('books/list')
+        res.redirect('/books/list')
     })
 }
 
@@ -91,6 +91,6 @@ export function processDelete(req, res, next) {
             res.end(err);
         }
 
-        res.redirect('books/list');
+        res.redirect('/books/list');
     })
 }
